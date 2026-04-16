@@ -232,9 +232,7 @@ const Landing = () => {
             </div>
             <span className="text-white font-bold">DocVault</span>
           </div>
-          <p className="text-slate-500 text-sm">
-            File Sharing System — B.Tech Mini Project © 2026
-          </p>
+          {/* Empty right-side footer previously holding copyright */}
         </div>
       </footer>
 
