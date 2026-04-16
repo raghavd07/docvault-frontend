@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUsers, faBuilding, faBook, faFile, faClipboard, faFolder, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUsers, faBuilding, faBook, faFile, faClipboard, faFolder, faSignOutAlt, faUser, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 
 const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,57 +50,59 @@ const Sidebar = () => {
   return (
     <motion.div
       initial={{ x: -20, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      animate={{ x: 0, opacity: 1, width: isCollapsed ? '5rem' : '16rem' }}
       transition={{ duration: 0.25 }}
-      className="w-64 min-h-screen bg-background border-r border-borderSubtle flex flex-col"
+      className="relative min-h-screen bg-background border-r border-borderSubtle flex flex-col"
     >
+      {/* Collapse Toggle Button */}
+      <button
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className="absolute -right-3 top-8 w-6 h-6 bg-surface border border-borderSubtle rounded-full flex items-center justify-center text-slate-400 hover:text-white z-50 cursor-pointer"
+      >
+        <FontAwesomeIcon icon={isCollapsed ? faChevronRight : faChevronLeft} className="text-xs" />
+      </button>
+
       {/* Logo */}
-      <div className="p-6 border-b border-borderSubtle">
-        <div className="flex items-center gap-3">
+      <div className={`p-6 border-b border-borderSubtle flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
+        <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center shrink-0">
+          <FontAwesomeIcon icon={faFolder} className="text-white text-lg" />
+        </div>
 
-          <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-            <FontAwesomeIcon icon={faFolder} className="text-white text-lg" />
-          </div>
-
+        {!isCollapsed && (
           <div>
-            <h1 className="text-white font-semibold text-sm">
+            <h1 className="text-white font-semibold text-sm whitespace-nowrap">
               DocVault
             </h1>
-            <p className="text-slate-400 text-xs">
+            <p className="text-slate-400 text-xs whitespace-nowrap">
               File Sharing System
             </p>
           </div>
-
-        </div>
+        )}
       </div>
 
       {/* User Info */}
-      <div className="p-4 mx-3 mt-4 rounded-lg bg-surface border border-borderSubtle">
-
+      <div className={`mx-3 mt-4 rounded-lg bg-surface border border-borderSubtle ${isCollapsed ? 'p-2 flex justify-center' : 'p-4'}`}>
         <div className="flex items-center gap-3">
-
-          <div className="w-9 h-9 rounded-lg bg-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
+          <div className="w-9 h-9 rounded-lg bg-indigo-500 flex items-center justify-center shrink-0 text-white text-sm font-semibold">
             {user?.name?.charAt(0).toUpperCase()}
           </div>
 
-          <div className="overflow-hidden">
-            <p className="text-white text-sm font-medium truncate">
-              {user?.name}
-            </p>
-            <p className="text-slate-400 text-xs capitalize">
-              {user?.role}
-            </p>
-          </div>
-
+          {!isCollapsed && (
+            <div className="overflow-hidden">
+              <p className="text-white text-sm font-medium truncate">
+                {user?.name}
+              </p>
+              <p className="text-slate-400 text-xs capitalize">
+                {user?.role}
+              </p>
+            </div>
+          )}
         </div>
-
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 p-3 mt-3 space-y-1">
-
         {links.map((item) => {
-
           const isActive = location.pathname === item.path;
 
           return (
@@ -111,30 +115,26 @@ const Sidebar = () => {
                 isActive
                   ? 'bg-indigo-500 text-white'
                   : 'text-slate-400 hover:text-white hover:bg-surface'
-              }`}
+              } ${isCollapsed ? 'justify-center' : ''}`}
             >
-              <FontAwesomeIcon icon={item.icon} className={`w-4 h-4 ${!isActive && item.color}`} />
-              {item.label}
+              <FontAwesomeIcon icon={item.icon} className={`w-4 h-4 shrink-0 ${!isActive ? item.color : ''}`} />
+              {!isCollapsed && <span className="whitespace-nowrap">{item.label}</span>}
             </motion.button>
           );
-
         })}
-
       </nav>
 
       {/* Logout */}
       <div className="p-3 border-t border-borderSubtle">
-
         <motion.button
           whileHover={{ x: 3 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:text-white hover:bg-red-500/10 transition"
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:text-white hover:bg-red-500/10 transition ${isCollapsed ? 'justify-center' : ''}`}
         >
-          <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
-          Logout
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 shrink-0" />
+          {!isCollapsed && <span>Logout</span>}
         </motion.button>
-
       </div>
 
     </motion.div>
