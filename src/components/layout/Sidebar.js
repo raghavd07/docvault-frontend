@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,10 +6,19 @@ import { faHome, faUsers, faBuilding, faBook, faFile, faClipboard, faFolder, faS
 import { motion } from 'framer-motion';
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setIsCollapsed(true);
+      else setIsCollapsed(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const adminLinks = [
     { label: 'Dashboard', path: '/admin/dashboard', icon: faHome, color: 'text-indigo-400' },
@@ -52,7 +61,7 @@ const Sidebar = () => {
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1, width: isCollapsed ? '5rem' : '16rem' }}
       transition={{ duration: 0.25 }}
-      className="relative min-h-screen bg-background border-r border-borderSubtle flex flex-col"
+      className="absolute md:relative z-50 min-h-screen bg-background border-r border-borderSubtle flex flex-col"
     >
       {/* Collapse Toggle Button */}
       <button

@@ -77,7 +77,7 @@ const FacultyDashboard = () => {
   return (
     <div className="flex min-h-screen bg-[#0f172a]">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
 
         {/* Header */}
         <div className="mb-8">
@@ -86,18 +86,18 @@ const FacultyDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
           <StatCard label="My Files" value={stats?.myFiles} icon={faFile} color="from-indigo-500 to-purple-600" />
           <StatCard label="Submissions" value={stats?.totalSubmissions} icon={faClipboard} color="from-pink-500 to-rose-600" />
           <StatCard label="My Courses" value={stats?.myCourses} icon={faBook} color="from-blue-500 to-cyan-600" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
 
           {/* Submissions Section */}
-          <div className="lg:col-span-2 bg-[#1e293b] rounded-2xl border border-slate-700/50 p-6">
+          <div className="lg:col-span-2 bg-[#1e293b] rounded-2xl border border-slate-700/50 p-4 md:p-6">
             {/* Section Header with Filter */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-lg font-semibold text-white">Recent Submissions</h2>
               <div className="flex items-center gap-2 bg-[#0f172a] border border-slate-600 rounded-xl px-3 py-1.5">
                 <FontAwesomeIcon icon={faFilter} className="text-slate-400 text-xs" />
@@ -167,7 +167,7 @@ const FacultyDashboard = () => {
           </div>
 
           {/* Notifications */}
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-4 md:p-6">
             <div className="flex items-center gap-2 mb-4">
               <FontAwesomeIcon icon={faBell} className="text-yellow-400" />
               <h2 className="text-lg font-semibold text-white">Notifications</h2>

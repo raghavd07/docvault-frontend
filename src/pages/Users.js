@@ -125,10 +125,10 @@ const Users = () => {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
 
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-8">
           <div>
             <h1 className="text-2xl font-semibold text-white">User Management</h1>
             <p className="text-slate-400 text-sm mt-1">Manage all users</p>
@@ -234,7 +234,7 @@ const Users = () => {
       {/* CREATE USER MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-surface border border-borderSubtle rounded-xl p-6 w-full max-w-md">
+          <div className="bg-surface border border-borderSubtle rounded-xl p-4 md:p-6 w-full max-w-md">
 
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-white text-lg font-semibold">Create User</h2>
@@ -310,7 +310,7 @@ const Users = () => {
       {/* RESET PASSWORD MODAL */}
       {showResetModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-surface border border-borderSubtle rounded-xl p-6 w-full max-w-md">
+          <div className="bg-surface border border-borderSubtle rounded-xl p-4 md:p-6 w-full max-w-md">
 
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-white text-lg font-semibold">Reset Password</h2>

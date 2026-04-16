@@ -92,7 +92,7 @@ const AdminDashboard = () => {
 
       <Sidebar />
 
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
 
         {/* Header */}
         <motion.div
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
           <StatCard label="Total Users" value={stats?.totalUsers} icon={faUsers} color="bg-indigo-500" />
           <StatCard label="Faculty" value={stats?.totalFaculty} icon={faChalkboardTeacher} color="bg-blue-500" />
@@ -124,10 +124,10 @@ const AdminDashboard = () => {
 
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
 
           {/* Recent Activity */}
-          <div className="lg:col-span-2 bg-surface border border-borderSubtle rounded-lg p-6 shadow-card">
+          <div className="lg:col-span-2 bg-surface border border-borderSubtle rounded-lg p-4 md:p-6 shadow-card">
 
             <h2 className="text-white font-semibold mb-4">
               Recent Activity
@@ -180,7 +180,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Most Downloaded */}
-          <div className="bg-surface border border-borderSubtle rounded-lg p-6 shadow-card">
+          <div className="bg-surface border border-borderSubtle rounded-lg p-4 md:p-6 shadow-card">
 
             <h2 className="text-white font-semibold mb-4">
               Most Downloaded

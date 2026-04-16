@@ -125,9 +125,9 @@ const Courses = () => {
   return (
     <div className="flex min-h-screen bg-[#0f172a]">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
 
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">Courses</h1>
             <p className="text-slate-400 mt-1">Manage academic courses</p>
@@ -141,12 +141,12 @@ const Courses = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-3 gap-5">
           {courses.length === 0 && (
             <p className="text-slate-500 col-span-3 text-center py-12">No courses found.</p>
           )}
           {courses.map((course) => (
-            <div key={course._id} className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-6 group hover:border-indigo-500/50 transition-all duration-200">
+            <div key={course._id} className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-4 md:p-6 group hover:border-indigo-500/50 transition-all duration-200">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center">
                   <FontAwesomeIcon icon={faBook} className="text-white text-lg" />
@@ -212,8 +212,8 @@ const Courses = () => {
       {/* Create Course Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-xl font-bold text-white">Create Course</h2>
               <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-white transition">
                 <FontAwesomeIcon icon={faTimes} />
@@ -263,8 +263,8 @@ const Courses = () => {
       {/* Edit Course Modal */}
       {showEditModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-xl font-bold text-white">Edit Course</h2>
               <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-white transition">
                 <FontAwesomeIcon icon={faTimes} />
@@ -314,8 +314,8 @@ const Courses = () => {
       {/* Assign Faculty Modal */}
       {showAssignModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-xl font-bold text-white">Assign Faculty</h2>
               <button onClick={() => setShowAssignModal(false)} className="text-slate-400 hover:text-white transition">
                 <FontAwesomeIcon icon={faTimes} />
@@ -349,8 +349,8 @@ const Courses = () => {
       {/* Enroll Student Modal */}
       {showEnrollModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-xl font-bold text-white">Enroll Student</h2>
               <button onClick={() => setShowEnrollModal(false)} className="text-slate-400 hover:text-white transition">
                 <FontAwesomeIcon icon={faTimes} />

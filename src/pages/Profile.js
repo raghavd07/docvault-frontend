@@ -50,17 +50,17 @@ const Profile = () => {
   return (
     <div className="flex min-h-screen bg-[#0f172a]">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white">Profile</h1>
           <p className="text-slate-400 mt-1">Manage your account settings</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
 
           {/* Profile Card */}
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-6 flex flex-col items-center text-center">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-4 md:p-6 flex flex-col items-center text-center">
             <div className={`w-24 h-24 rounded-2xl bg-gradient-to-br ${roleGradient} flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg`}>
               {user?.name?.charAt(0).toUpperCase()}
             </div>
@@ -83,7 +83,7 @@ const Profile = () => {
           </div>
 
           {/* Change Password */}
-          <div className="lg:col-span-2 bg-[#1e293b] rounded-2xl border border-slate-700/50 p-6">
+          <div className="lg:col-span-2 bg-[#1e293b] rounded-2xl border border-slate-700/50 p-4 md:p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
                 <FontAwesomeIcon icon={faKey} className="text-white text-sm" />

@@ -127,7 +127,7 @@ const Login = () => {
           </motion.div>
 
           {/* Card */}
-          <GlassCard className="p-8">
+          <GlassCard className="p-4 md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
 
               {/* Email */}

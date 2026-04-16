@@ -122,9 +122,9 @@ const Submissions = () => {
   return (
     <div className="flex min-h-screen bg-[#0f172a]">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto pl-24 pr-4 py-4 md:p-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">Submissions</h1>
             <p className="text-slate-400 mt-1">
@@ -143,7 +143,7 @@ const Submissions = () => {
         </div>
 
         {/* Submissions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-3 xl:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {submissions.length === 0 && (
             <div className="col-span-4 text-center py-16">
               <FontAwesomeIcon icon={faClipboard} className="text-slate-600 text-5xl mb-4" />
@@ -201,8 +201,8 @@ const Submissions = () => {
       {/* Submit Assignment Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#1e293b] rounded-2xl border border-slate-700 w-full max-w-md p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
               <h2 className="text-xl font-bold text-white">Submit Assignment</h2>
               <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-white transition">
                 <FontAwesomeIcon icon={faTimes} />

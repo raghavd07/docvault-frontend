@@ -151,7 +151,7 @@ const Landing = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-6 mt-20 max-w-lg mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6 mt-20 max-w-lg mx-auto">
             {[
               { value: '3', label: 'User Roles' },
               { value: '10+', label: 'Features' },
@@ -178,9 +178,9 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
             {features.map((feature) => (
-              <div key={feature.title} className="bg-[#1e293b] rounded-2xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300 p-6 group">
+              <div key={feature.title} className="bg-[#1e293b] rounded-2xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300 p-4 md:p-6 group">
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg mb-4`}>
                   <FontAwesomeIcon icon={feature.icon} className="text-white text-lg" />
                 </div>
@@ -202,9 +202,9 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
             {roles.map((role) => (
-              <div key={role.title} className="bg-[#0f172a] rounded-2xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300 p-6">
+              <div key={role.title} className="bg-[#0f172a] rounded-2xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300 p-4 md:p-6">
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${role.color} flex items-center justify-center shadow-lg mb-5`}>
                   <FontAwesomeIcon icon={role.icon} className="text-white text-xl" />
                 </div>
