@@ -367,9 +367,15 @@ const Courses = () => {
                   required
                 >
                   <option value=''>Select Student</option>
-                  {students.map((s) => (
-                    <option key={s._id} value={s._id}>{s.name}</option>
-                  ))}
+                  {students
+                    .filter(s => {
+                      const courseDept = selectedCourse?.department?._id || selectedCourse?.department;
+                      const studentDept = s.department?._id || s.department;
+                      return courseDept ? String(courseDept) === String(studentDept) : true;
+                    })
+                    .map((s) => (
+                      <option key={s._id} value={s._id}>{s.name}</option>
+                    ))}
                 </select>
               </div>
               <div className="flex gap-3 pt-2">
