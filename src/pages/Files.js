@@ -309,19 +309,7 @@ const Files = () => {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Course (Optional)</label>
-                <select
-                  className="w-full bg-[#0f172a] border border-slate-600 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-                  value={uploadForm.course}
-                  onChange={(e) => setUploadForm({ ...uploadForm, course: e.target.value })}
-                >
-                  <option value=''>Select Course</option>
-                  {courses.map((c) => (
-                    <option key={c._id} value={c._id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
+              {/* Removed redundant Course selection dropdown */}
 
               {/* Visibility */}
               <div>

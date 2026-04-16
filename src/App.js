@@ -68,7 +68,7 @@ const AppRoutes = () => {
         <ProtectedRoute roles={['admin']}><Departments /></ProtectedRoute>
       } />
       <Route path='/courses' element={
-        <ProtectedRoute roles={['admin']}><Courses /></ProtectedRoute>
+        <ProtectedRoute roles={['admin', 'student']}><Courses /></ProtectedRoute>
       } />
       <Route path='/files' element={
         <ProtectedRoute roles={['admin', 'faculty', 'student']}><Files /></ProtectedRoute>

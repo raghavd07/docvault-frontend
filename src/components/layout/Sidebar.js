@@ -39,6 +39,7 @@ const Sidebar = () => {
 
   const studentLinks = [
     { label: 'Dashboard', path: '/student/dashboard', icon: faHome, color: 'text-indigo-400' },
+    { label: 'Courses', path: '/courses', icon: faBook, color: 'text-cyan-400' },
     { label: 'Files', path: '/files', icon: faFile, color: 'text-orange-400' },
     { label: 'Submissions', path: '/submissions', icon: faClipboard, color: 'text-pink-400' },
     { label: 'Profile', path: '/profile', icon: faUser },
