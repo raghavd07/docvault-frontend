@@ -53,6 +53,7 @@ const Files = () => {
     fetchFiles();
     fetchCourses();
     if (user?.role === 'admin' || user?.role === 'faculty') fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchFiles = async () => {

@@ -4,7 +4,7 @@ import API from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Profile = () => {
   const { user } = useAuth();

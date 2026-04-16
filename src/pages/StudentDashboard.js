@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { useAuth } from '../context/AuthContext';
 import API, { API_URL } from '../utils/axios';
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ const StatCard = ({ label, value, icon, color }) => (
 
 const StudentDashboard = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+
   const [stats, setStats] = useState(null);
   const [recentFiles, setRecentFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
