@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import API from '../utils/axios';
+import API, { API_URL } from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -110,7 +110,7 @@ const Submissions = () => {
       toast.error('File path not found');
       return;
     }
-    window.open('http://localhost:5000/' + sub.file.path.replace(/\\/g, '/'), '_blank');
+    window.open(sub.file.path.startsWith('http') ? sub.file.path : `${API_URL}/` + sub.file.path.replace(/\\/g, '/'), '_blank');
   };
 
   if (loading) return (

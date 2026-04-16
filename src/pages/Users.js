@@ -8,6 +8,7 @@ import {
   faPlus, faUserSlash, faUserCheck, faTrash, faKey, faTimes
 } from '@fortawesome/free-solid-svg-icons';
 
+const API = process.env.REACT_APP_API_URL;
 const Users = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);

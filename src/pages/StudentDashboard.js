@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import API from '../utils/axios';
+import API, { API_URL } from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -89,7 +89,7 @@ const StudentDashboard = () => {
 
   const handleView = (file) => {
     if (!file.path) { toast.error('File not found'); return; }
-    window.open('http://localhost:5000/' + file.path.replace(/\\/g, '/'), '_blank');
+    window.open(file.path.startsWith('http') ? file.path : `${API_URL}/` + file.path.replace(/\\/g, '/'), '_blank');
   };
 
   if (loading) return (

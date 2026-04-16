@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import API from '../utils/axios';
+import API, { API_URL } from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -151,7 +151,7 @@ const FacultyDashboard = () => {
                         <button
                           onClick={() => {
                             if (!sub.file?.path) { toast.error('File not found'); return; }
-                            window.open('http://localhost:5000/' + sub.file.path.replace(/\\/g, '/'), '_blank');
+                            window.open(sub.file.path.startsWith('http') ? sub.file.path : `${API_URL}/` + sub.file.path.replace(/\\/g, '/'), '_blank');
                           }}
                           className="flex items-center gap-1 px-2 py-1 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 text-xs transition"
                         >
