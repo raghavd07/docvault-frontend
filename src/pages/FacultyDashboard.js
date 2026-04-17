@@ -53,7 +53,11 @@ const FacultyDashboard = () => {
       setRecentSubmissions(dashRes.data.recentSubmissions || []);
       setFilteredSubmissions(dashRes.data.recentSubmissions || []);
       setNotifications(dashRes.data.notifications || []);
-      setCourses(coursesRes.data);
+      
+      const userId = user?.id || user?._id;
+      setCourses(coursesRes.data.filter((c) => 
+        c.faculty?.some((f) => f._id === userId || f === userId)
+      ));
     } catch (error) {
       toast.error('Failed to load dashboard');
     } finally {
@@ -87,9 +91,9 @@ const FacultyDashboard = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
-          <StatCard label="My Files" value={stats?.myFiles} icon={faFile} color="from-indigo-500 to-purple-600" />
+          <StatCard label="My Files" value={stats?.uploadedFiles} icon={faFile} color="from-indigo-500 to-purple-600" />
           <StatCard label="Submissions" value={stats?.totalSubmissions} icon={faClipboard} color="from-pink-500 to-rose-600" />
-          <StatCard label="My Courses" value={stats?.myCourses} icon={faBook} color="from-blue-500 to-cyan-600" />
+          <StatCard label="My Courses" value={stats?.totalCourses} icon={faBook} color="from-blue-500 to-cyan-600" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6">
@@ -149,9 +153,13 @@ const FacultyDashboard = () => {
                           {new Date(sub.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </span>
                         <button
-                          onClick={() => {
+                          onClick={async () => {
                             if (!sub.file?.path) { toast.error('File not found'); return; }
-                            window.open(sub.file.path.startsWith('http') ? sub.file.path : `${API_URL}/` + sub.file.path.replace(/\\/g, '/'), '_blank');
+                            try {
+                              const res = await API.get(`/submissions/${sub._id}/view`, { responseType: 'blob' });
+                              const url = window.URL.createObjectURL(new Blob([res.data], { type: sub.file?.mimetype || 'application/pdf' }));
+                              window.open(url, '_blank');
+                            } catch (error) { toast.error('Failed to view file'); }
                           }}
                           className="flex items-center gap-1 px-2 py-1 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 text-xs transition"
                         >

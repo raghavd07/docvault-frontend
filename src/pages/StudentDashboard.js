@@ -57,7 +57,10 @@ const StudentDashboard = () => {
       setFilteredFiles(dashRes.data.recentFiles || []);
       setRecentSubmissions(dashRes.data.recentSubmissions || []);
       setNotifications(dashRes.data.notifications || []);
-      setCourses(coursesRes.data);
+      const userId = user?.id || user?._id;
+      setCourses(coursesRes.data.filter((c) =>
+        c.students?.some((s) => s._id === userId || s === userId)
+      ));
     } catch (error) {
       toast.error('Failed to load dashboard');
     } finally {
@@ -87,9 +90,13 @@ const StudentDashboard = () => {
     }
   };
 
-  const handleView = (file) => {
+  const handleView = async (file) => {
     if (!file.path) { toast.error('File not found'); return; }
-    window.open(file.path.startsWith('http') ? file.path : `${API_URL}/` + file.path.replace(/\\/g, '/'), '_blank');
+    try {
+      const res = await API.get(`/files/${file._id}/view`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: file.mimetype || 'application/pdf' }));
+      window.open(url, '_blank');
+    } catch (error) { toast.error('Failed to view file'); }
   };
 
   if (loading) return (

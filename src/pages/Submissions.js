@@ -61,6 +61,14 @@ const Submissions = () => {
     } catch (error) {}
   };
 
+  const filteredCourses = courses.filter((c) => {
+    const userId = user?.id || user?._id;
+    if (user?.role === 'admin') return true;
+    if (user?.role === 'faculty') return c.faculty?.some((f) => f._id === userId || f === userId);
+    if (user?.role === 'student') return c.students?.some((s) => s._id === userId || s === userId);
+    return false;
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -105,12 +113,18 @@ const Submissions = () => {
     }
   };
 
-  const handleView = (sub) => {
+  const handleView = async (sub) => {
     if (!sub.file?.path) {
       toast.error('File path not found');
       return;
     }
-    window.open(sub.file.path.startsWith('http') ? sub.file.path : `${API_URL}/` + sub.file.path.replace(/\\/g, '/'), '_blank');
+    try {
+      const res = await API.get(`/submissions/${sub._id}/view`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: sub.file?.mimetype || 'application/pdf' }));
+      window.open(url, '_blank');
+    } catch (e) {
+      toast.error('Failed to view submission');
+    }
   };
 
   if (loading) return (
@@ -143,7 +157,7 @@ const Submissions = () => {
         </div>
 
         {/* Submissions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-3 xl:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {submissions.length === 0 && (
             <div className="col-span-4 text-center py-16">
               <FontAwesomeIcon icon={faClipboard} className="text-slate-600 text-5xl mb-4" />
@@ -168,20 +182,18 @@ const Submissions = () => {
               </p>
 
               {/* Actions */}
-              <div className="flex items-center gap-1.5 pt-3 border-t border-slate-700/50">
+              <div className="flex items-center gap-1.5 pt-3 border-t border-slate-700/50 mt-auto">
                 <button
                   onClick={() => handleView(sub)}
                   className="flex-1 flex items-center justify-center py-1.5 rounded-lg bg-slate-700/50 hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition text-xs gap-1"
                 >
                   <FontAwesomeIcon icon={faEye} />
-                  View
                 </button>
                 <button
                   onClick={() => handleDownload(sub)}
                   className="flex-1 flex items-center justify-center py-1.5 rounded-lg bg-slate-700/50 hover:bg-green-500/20 text-slate-400 hover:text-green-400 transition text-xs gap-1"
                 >
                   <FontAwesomeIcon icon={faDownload} />
-                  Download
                 </button>
                 {(user?.role === 'admin' || sub.student?._id === user?._id) && (
                   <button
@@ -239,7 +251,7 @@ const Submissions = () => {
                   required
                 >
                   <option value=''>Select Course</option>
-                  {courses.map((c) => (
+                  {filteredCourses.map((c) => (
                     <option key={c._id} value={c._id}>{c.name}</option>
                   ))}
                 </select>

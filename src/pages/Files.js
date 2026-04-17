@@ -52,9 +52,14 @@ const Files = () => {
   useEffect(() => {
     fetchFiles();
     fetchCourses();
-    if (user?.role === 'admin' || user?.role === 'faculty') fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (user?.role === 'admin' || user?.role === 'faculty') {
+      fetchUsers();
+    }
+  }, [user]);
 
   const fetchFiles = async () => {
     try {
@@ -152,13 +157,27 @@ const Files = () => {
     }
   };
 
-  const handleView = (file) => {
-    window.open(file.path.startsWith('http') ? file.path : `${API_URL}/` + file.path.replace(/\\/g, '/'), '_blank');
+  const handleView = async (file) => {
+    try {
+      const res = await API.get(`/files/${file._id}/view`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: file.mimetype || 'application/pdf' }));
+      window.open(url, '_blank');
+    } catch (error) {
+      toast.error('Failed to view file');
+    }
   };
 
   const filteredFiles = files.filter((f) =>
     f.name?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const filteredCourses = courses.filter((c) => {
+    const userId = user?.id || user?._id;
+    if (user?.role === 'admin') return true;
+    if (user?.role === 'faculty') return c.faculty?.some((f) => f._id === userId || f === userId);
+    if (user?.role === 'student') return c.students?.some((s) => s._id === userId || s === userId);
+    return false;
+  });
 
   if (loading) return (
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
@@ -202,25 +221,25 @@ const Files = () => {
         </div>
 
         {/* Files Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-3 xl:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filteredFiles.length === 0 && (
-            <p className="text-slate-500 col-span-4 text-center py-12">No files found.</p>
+            <p className="text-slate-500 col-span-full text-center py-12">No files found.</p>
           )}
           {filteredFiles.map((file) => (
             <div key={file._id} className={`bg-[#1e293b] rounded-2xl border transition-all duration-200 p-5 group ${
-  file.isDeleted
-    ? 'border-red-500/30 opacity-60 hover:border-red-500/50'
-    : 'border-slate-700/50 hover:border-indigo-500/50'
-}`}>
-  {file.isDeleted && (
-  <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-red-500/20 text-red-400 mb-2 inline-block">
-    Deleted
-  </span>
-)}
+              file.isDeleted
+                ? 'border-red-500/30 opacity-60 hover:border-red-500/50'
+                : 'border-slate-700/50 hover:border-indigo-500/50'
+            }`}>
+              {file.isDeleted && (
+              <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-red-500/20 text-red-400 mb-2 inline-block">
+                Deleted
+              </span>
+            )}
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getFileColor(file.mimetype)} flex items-center justify-center shadow-lg mb-4`}>
                 <FontAwesomeIcon icon={getFileIcon(file.mimetype)} className="text-white text-lg" />
               </div>
-              <h3 className="text-white font-medium text-sm mb-1 truncate">{file.name}</h3>
+              <h3 className="text-white font-medium text-sm mb-1 truncate" title={file.name}>{file.name}</h3>
               <p className="text-slate-500 text-xs mb-3 truncate">{file.uploadedBy?.name}</p>
               <div className="flex flex-wrap gap-1.5 mb-4">
                 <span className={`px-2 py-0.5 rounded-md text-xs font-medium ${
@@ -237,29 +256,27 @@ const Files = () => {
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-1.5 pt-3 border-t border-slate-700/50">
+              <div className="flex items-center gap-1.5 pt-3 border-t border-slate-700/50 mt-auto">
                 <button
                   onClick={() => handleView(file)}
                   className="flex-1 flex items-center justify-center py-1.5 rounded-lg bg-slate-700/50 hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition text-xs gap-1"
                 >
                   <FontAwesomeIcon icon={faEye} />
-                  View
                 </button>
                 <button
                   onClick={() => handleDownload(file)}
                   className="flex-1 flex items-center justify-center py-1.5 rounded-lg bg-slate-700/50 hover:bg-green-500/20 text-slate-400 hover:text-green-400 transition text-xs gap-1"
                 >
                   <FontAwesomeIcon icon={faDownload} />
-                  Download
                 </button>
                 {(user?.role === 'admin' || user?.role === 'faculty') && (
                   <>
                     <button
                       onClick={() => { setSelectedFile(file); setShowShareModal(true); }}
-                      className="p-1.5 rounded-lg bg-slate-700/50 hover:bg-purple-500/20 text-slate-400 hover:text-purple-400 transition"
+                      className="flex-1 flex items-center justify-center py-1.5 rounded-lg bg-slate-700/50 hover:bg-purple-500/20 text-slate-400 hover:text-purple-400 transition text-xs gap-1"
                       title="Share"
                     >
-                      <FontAwesomeIcon icon={faShare} className="text-xs" />
+                      <FontAwesomeIcon icon={faShare} />
                     </button>
                     <button
                       onClick={() => handleDelete(file._id)}
@@ -308,13 +325,11 @@ const Files = () => {
                   onChange={(e) => setUploadForm({ ...uploadForm, description: e.target.value })}
                 />
               </div>
-              
-              {/* Removed redundant Course selection dropdown */}
 
               {/* Visibility */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Visibility</label>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   {['private', 'specific', 'course'].map((type) => (
                     <button
                       key={type}
@@ -361,7 +376,7 @@ const Files = () => {
                     required
                   >
                     <option value=''>Select Course</option>
-                    {courses.map((c) => (
+                    {filteredCourses.map((c) => (
                       <option key={c._id} value={c._id}>{c.name}</option>
                     ))}
                   </select>
@@ -417,7 +432,7 @@ const Files = () => {
             <form onSubmit={handleShare} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Share Type</label>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   {['specific', 'course', 'private'].map((type) => (
                     <button
                       key={type}
@@ -460,7 +475,7 @@ const Files = () => {
                     required
                   >
                     <option value=''>Select Course</option>
-                    {courses.map((c) => (
+                    {filteredCourses.map((c) => (
                       <option key={c._id} value={c._id}>{c.name}</option>
                     ))}
                   </select>
