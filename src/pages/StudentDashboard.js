@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useAuth } from '../context/AuthContext';
-import API, { API_URL } from '../utils/axios';
+import API from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -72,7 +72,7 @@ const StudentDashboard = () => {
     try {
       await API.put(`/dashboard/notifications/${id}/read`);
       setNotifications(notifications.filter((n) => n._id !== id));
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleDownload = async (file) => {

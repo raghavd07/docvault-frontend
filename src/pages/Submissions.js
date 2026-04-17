@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import API, { API_URL } from '../utils/axios';
+import API from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -58,7 +58,7 @@ const Submissions = () => {
     try {
       const res = await API.get('/courses');
       setCourses(res.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const filteredCourses = courses.filter((c) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import API, { API_URL } from '../utils/axios';
+import API from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,9 +53,9 @@ const FacultyDashboard = () => {
       setRecentSubmissions(dashRes.data.recentSubmissions || []);
       setFilteredSubmissions(dashRes.data.recentSubmissions || []);
       setNotifications(dashRes.data.notifications || []);
-      
+
       const userId = user?.id || user?._id;
-      setCourses(coursesRes.data.filter((c) => 
+      setCourses(coursesRes.data.filter((c) =>
         c.faculty?.some((f) => f._id === userId || f === userId)
       ));
     } catch (error) {
@@ -69,7 +69,7 @@ const FacultyDashboard = () => {
     try {
       await API.put(`/dashboard/notifications/${id}/read`);
       setNotifications(notifications.filter((n) => n._id !== id));
-    } catch (error) {}
+    } catch (error) { }
   };
 
   if (loading) return (

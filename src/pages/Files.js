@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import API, { API_URL } from '../utils/axios';
+import API from '../utils/axios';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/layout/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -76,14 +76,14 @@ const Files = () => {
     try {
       const res = await API.get('/courses');
       setCourses(res.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const fetchUsers = async () => {
     try {
       const res = await API.get('/users');
       setUsers(res.data.filter((u) => u.role === 'student' || u.role === 'faculty'));
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleUpload = async (e) => {
@@ -226,28 +226,26 @@ const Files = () => {
             <p className="text-slate-500 col-span-full text-center py-12">No files found.</p>
           )}
           {filteredFiles.map((file) => (
-            <div key={file._id} className={`bg-[#1e293b] rounded-2xl border transition-all duration-200 p-5 group ${
-              file.isDeleted
+            <div key={file._id} className={`bg-[#1e293b] rounded-2xl border transition-all duration-200 p-5 group ${file.isDeleted
                 ? 'border-red-500/30 opacity-60 hover:border-red-500/50'
                 : 'border-slate-700/50 hover:border-indigo-500/50'
-            }`}>
+              }`}>
               {file.isDeleted && (
-              <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-red-500/20 text-red-400 mb-2 inline-block">
-                Deleted
-              </span>
-            )}
+                <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-red-500/20 text-red-400 mb-2 inline-block">
+                  Deleted
+                </span>
+              )}
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getFileColor(file.mimetype)} flex items-center justify-center shadow-lg mb-4`}>
                 <FontAwesomeIcon icon={getFileIcon(file.mimetype)} className="text-white text-lg" />
               </div>
               <h3 className="text-white font-medium text-sm mb-1 truncate" title={file.name}>{file.name}</h3>
               <p className="text-slate-500 text-xs mb-3 truncate">{file.uploadedBy?.name}</p>
               <div className="flex flex-wrap gap-1.5 mb-4">
-                <span className={`px-2 py-0.5 rounded-md text-xs font-medium ${
-                  file.shareType === 'public' ? 'bg-green-500/20 text-green-400' :
-                  file.shareType === 'course' ? 'bg-blue-500/20 text-blue-400' :
-                  file.shareType === 'specific' ? 'bg-purple-500/20 text-purple-400' :
-                  'bg-slate-500/20 text-slate-400'
-                }`}>
+                <span className={`px-2 py-0.5 rounded-md text-xs font-medium ${file.shareType === 'public' ? 'bg-green-500/20 text-green-400' :
+                    file.shareType === 'course' ? 'bg-blue-500/20 text-blue-400' :
+                      file.shareType === 'specific' ? 'bg-purple-500/20 text-purple-400' :
+                        'bg-slate-500/20 text-slate-400'
+                  }`}>
                   {file.shareType || 'private'}
                 </span>
                 {file.course && (
@@ -335,11 +333,10 @@ const Files = () => {
                       key={type}
                       type="button"
                       onClick={() => setUploadForm({ ...uploadForm, shareType: type, shareTarget: '' })}
-                      className={`py-2 rounded-xl text-sm font-medium capitalize transition ${
-                        uploadForm.shareType === type
+                      className={`py-2 rounded-xl text-sm font-medium capitalize transition ${uploadForm.shareType === type
                           ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white'
                           : 'bg-slate-700 text-slate-400 hover:text-white'
-                      }`}
+                        }`}
                     >
                       {type}
                     </button>
@@ -438,11 +435,10 @@ const Files = () => {
                       key={type}
                       type="button"
                       onClick={() => { setShareType(type); setShareTarget(''); }}
-                      className={`py-2 rounded-xl text-sm font-medium capitalize transition ${
-                        shareType === type
+                      className={`py-2 rounded-xl text-sm font-medium capitalize transition ${shareType === type
                           ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white'
                           : 'bg-slate-700 text-slate-400 hover:text-white'
-                      }`}
+                        }`}
                     >
                       {type}
                     </button>
