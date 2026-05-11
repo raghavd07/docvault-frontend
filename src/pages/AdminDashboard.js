@@ -84,6 +84,8 @@ const AdminDashboard = () => {
     create_user: 'bg-indigo-500/20 text-indigo-400',
     create_department: 'bg-pink-500/20 text-pink-400',
     create_course: 'bg-orange-500/20 text-orange-400',
+    activate_user: 'bg-teal-500/20 text-teal-400',
+    deactivate_user: 'bg-slate-500/20 text-slate-400',
   };
 
   return (
